@@ -15,3 +15,5 @@ include(deployment.pri)
 
 HEADERS += \
     backup.h
+
+OTHER_FILES +=
