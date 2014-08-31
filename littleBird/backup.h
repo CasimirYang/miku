@@ -14,8 +14,7 @@ signals:
     void  readConfiguredMess(QString fromFile,QString taregetFile);
 public slots:
     void  backupfile(QList<QUrl> taregetFile,QString targetDir);
-    void  openConfiguredWin(void);
-    void saveConfigured();
+    void  saveConfigured(QString taregetFile);
 };
 
 #endif // BACKUP_H

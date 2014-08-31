@@ -4,5 +4,6 @@
         <file>config.xml</file>
         <file>images/folder.png</file>
         <file>images/animation.gif</file>
+        <file>images/ico.ico</file>
     </qresource>
 </RCC>

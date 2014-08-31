@@ -5,6 +5,7 @@
 #include <QQuickView>
 #include <windows.h>
 #include <QUrl>
+#include <QXmlStreamWriter>
 backup::backup(QObject *parent) :
     QObject(parent)
 {
@@ -34,7 +35,7 @@ void backup::backupfile(QList<QUrl> taregetFile, QString targetDir)
         bool copyFlag = QFile::copy(sourceUrl, saveDirUrl+"/"+fileName);
         bool removeFlag;
         if(copyFlag){
-              removeFlag = QFile::remove(sourceUrl);
+            removeFlag = QFile::remove(sourceUrl);
         }
         QString log;
         if(copyFlag && removeFlag){
@@ -42,10 +43,10 @@ void backup::backupfile(QList<QUrl> taregetFile, QString targetDir)
         }
         else{
             if(copyFlag){
-                 log = "##\r\n"+current_date_time.toString("yyyy-MM-dd hh:mm:ss.zzz")+" DELETE FILE ERROR! "+"  copyFile:"+url+"  toDir:"+fileName+"\r\n##\r\n";
+                log = "##\r\n"+current_date_time.toString("yyyy-MM-dd hh:mm:ss.zzz")+" DELETE FILE ERROR! "+"  copyFile:"+url+"  toDir:"+fileName+"\r\n##\r\n";
             }
             else{
-                 log = "##\r\n"+current_date_time.toString("yyyy-MM-dd hh:mm:ss.zzz")+" COPY ERROR! "+"  copyFile:"+url+"  toDir:"+fileName+"\r\n##\r\n";
+                log = "##\r\n"+current_date_time.toString("yyyy-MM-dd hh:mm:ss.zzz")+" COPY ERROR! "+"  copyFile:"+url+"  toDir:"+fileName+"\r\n##\r\n";
             }
         }
         //Qstring to char *  support simplified chinese
@@ -61,22 +62,52 @@ void backup::backupfile(QList<QUrl> taregetFile, QString targetDir)
     Sleep(5000);
     emit backupfileCompleted();
 }
-void backup::openConfiguredWin()
-{
-    QQuickView *view = new QQuickView;
-    view->setSource(QUrl::fromLocalFile("D:/Users/yjh/qt/untitled/configuration.qml"));
-    view->setFlags(Qt::FramelessWindowHint);
-    int ss(view->status());
-    if(ss==2){
-        qDebug("Loading");
-    }else{
 
-        view->show();
+//void backup::openConfiguredWin()
+//{
+//    QQuickView *view = new QQuickView;
+//    view->setSource(QUrl::fromLocalFile("D:/Users/yjh/qt/untitled/configuration.qml"));
+//    view->setFlags(Qt::FramelessWindowHint);
+//    int ss(view->status());
+//    if(ss==2){
+//        qDebug("Loading");
+//    }else{
+
+//        view->show();
+//    }
+//    //emit readConfiguredMess(fromFile,taregetFile);
+//}
+
+void backup::saveConfigured(QString taregetFile)
+{
+
+    QFile file("D:/Users/yjh/qt/littleBird/config.xml");
+    if(file.open(QIODevice::WriteOnly)){
+        qDebug("open configFile for change success ");
     }
-    //emit readConfiguredMess(fromFile,taregetFile);
-}
+    else{
+        qDebug("open configFile for change fails");
+    }
+    //    QString text;
+    //    QXmlStreamReader xml;
+    //    xml.setDevice(&file);
+    //    while (!xml.atEnd()) {
+    //        xml.readNext();
+    //        if (xml.isStartElement()) {
+    //            if (xml.name() == "targetDir"){
+    //                xml.
+    //                text =  xml.readElementText();
+    //            }
+    //        }
+    //    }
 
-void backup::saveConfigured()
-{
+    QXmlStreamWriter writer(&file);
+    writer.setAutoFormatting(true);
+    writer.writeStartDocument();
+    writer.writeStartElement("dir");
+    writer.writeTextElement("targetDir",taregetFile);
+    writer.writeEndDocument();
+    writer.writeEndDocument();
+    file.close();
     emit configuredHadSaved();
 }

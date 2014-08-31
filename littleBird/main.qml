@@ -24,43 +24,46 @@ Window {
     }
 
     Backup{
-        id:backup1
+        id:backupEvent
         onConfiguredHadSaved:{
            // applicationWindow1.show();
         }
         onBackupfileCompleted:{
-        animation1.visible=hide();
+         statusText.text="Done";
         }
     }
 
     Text {
-        id: text1
-        x: 0
-        y: 0
-        z:5
+        id: processText
         anchors.fill: parent
         font.pixelSize: 12
         visible: true;
+    }
+    Text {
+        id: statusText
+        x:window1.width-36
+        y:window1.height-15
+        visible: true
+        text: "Ready"
     }
     DropArea{
         id:droparea1
         z:2
         anchors.fill: parent
+
         onDropped: {
-             console.log(drop.urls.toString());
+            console.log(drop.urls.toString());
             console.log(targetDir.toString());
-            animation1.visible=show();
-            backup1.backupfile(drop.urls,targetDir);  //ListElement
-            //applicationWindow1.hide();
-
-
+          //   statusText.text="Running";
+            backupEvent.backupfile(drop.urls,targetDir);  //ListElement
         }
     }
     FileDialog{
         id: fileDialog
         title: "Choose a folder"
         selectFolder: true
-        onAccepted: folderModel.folder = fileUrl + "/"
+        onAccepted: backupEvent.saveConfigured(fileUrl.toString());
+
     }
     Image {
         anchors.top: parent.top
@@ -115,7 +118,7 @@ Window {
 //            onClicked:{
 //                applicationWindow1.hide();
 //                popButton.pressed
-//                backup1.openConfiguredWin();
+//                backupEvent.openConfiguredWin();
 //            }
 //        }
 
