@@ -42,10 +42,10 @@ void backup::backupfile(QList<QUrl> taregetFile, QString targetDir)
         }
         else{
             if(copyFlag){
-                 log = "##\r\n"+current_date_time.toString("yyyy-MM-dd hh:mm:ss.zzz")+"DELETE FILE ERROR! "+"  copyFile:"+url+"  toDir:"+fileName+"\r\n##\r\n";
+                 log = "##\r\n"+current_date_time.toString("yyyy-MM-dd hh:mm:ss.zzz")+" DELETE FILE ERROR! "+"  copyFile:"+url+"  toDir:"+fileName+"\r\n##\r\n";
             }
             else{
-                 log = "##\r\n"+current_date_time.toString("yyyy-MM-dd hh:mm:ss.zzz")+"COPY ERROR! "+"  copyFile:"+url+"  toDir:"+fileName+"\r\n##\r\n";
+                 log = "##\r\n"+current_date_time.toString("yyyy-MM-dd hh:mm:ss.zzz")+" COPY ERROR! "+"  copyFile:"+url+"  toDir:"+fileName+"\r\n##\r\n";
             }
         }
         //Qstring to char *  support simplified chinese
@@ -59,8 +59,7 @@ void backup::backupfile(QList<QUrl> taregetFile, QString targetDir)
         logFile.close();
     }
     Sleep(5000);
-    QString completedMess("Completed!");
-    emit backupfileCompleted(&completedMess);
+    emit backupfileCompleted();
 }
 void backup::openConfiguredWin()
 {

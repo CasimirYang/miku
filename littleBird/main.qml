@@ -5,14 +5,14 @@ import QtQuick.Dialogs 1.0
 import com.backup 1.0
 import QtWinExtras 1.0 as Win
 Window {
-    id:win
+    id:window1
     visible: true
     width: 360
-    height: 360
+    height: 80
     color: dwm.compositionEnabled ? "transparent" : dwm.realColorizationColor
     //! [color]
-    x:100;
-    y:200;
+    x:950;
+    y:650;
     //! [dwm]
     Win.DwmFeatures {
         id: dwm
@@ -29,24 +29,31 @@ Window {
            // applicationWindow1.show();
         }
         onBackupfileCompleted:{
-
+        animation1.visible=hide();
         }
     }
 
     Text {
         id: text1
-        x: 39
-        y: 72
+        x: 0
+        y: 0
+        z:5
+        anchors.fill: parent
         font.pixelSize: 12
+        visible: true;
     }
     DropArea{
         id:droparea1
+        z:2
         anchors.fill: parent
         onDropped: {
              console.log(drop.urls.toString());
             console.log(targetDir.toString());
+            animation1.visible=show();
             backup1.backupfile(drop.urls,targetDir);  //ListElement
             //applicationWindow1.hide();
+
+
         }
     }
     FileDialog{
@@ -66,9 +73,18 @@ Window {
             onClicked: fileDialog.open()
         }
     }
-    Component.onCompleted: {
-         console.log("QML droparea1\'s C++ type - ", droparea1);
-     }
+//    Component.onCompleted: {
+//         console.log("QML droparea1\'s C++ type - ", droparea1);
+//     }
+//    Rectangle {
+//        id:animation1
+//        x:100
+//        visibleChildren:hide();
+//        y:200
+//        width: animation.width; height: animation.height
+//        AnimatedImage { id: animation; source: "images/animation.gif"}
+//        visible:hide();
+//    }
 }
 
 
