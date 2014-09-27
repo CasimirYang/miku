@@ -55,14 +55,14 @@ Window {
             console.log(drop.urls.toString());
             console.log(targetDir.toString());
           //   statusText.text="Running";
-            backupEvent.backupfile(drop.urls,targetDir);  //ListElement
+            backupEvent.backupfile(drop.urls,targetDir,applicationDirPath);  //ListElement
         }
     }
     FileDialog{
         id: fileDialog
-        title: "Choose a folder"
+        title: "Choose the dir to save"
         selectFolder: true
-        onAccepted: backupEvent.saveConfigured(fileUrl.toString());
+        onAccepted: backupEvent.saveConfigured(fileUrl.toString(),applicationDirPath);
 
     }
     Image {
@@ -73,6 +73,7 @@ Window {
         MouseArea {
             anchors.fill: parent
             anchors.margins: -10
+
             onClicked: fileDialog.open()
         }
     }
